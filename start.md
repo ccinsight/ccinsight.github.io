@@ -8,6 +8,7 @@ toc: false
 tags: ["life"]
 categories: ["misc"]
 draft: false
+comment: false
 ---
 
 *First they came for the Socialists, and I did not speak out—*
