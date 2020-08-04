@@ -1,6 +1,6 @@
 ---
 title: "Kafka Enable SCRAM"
-date: 2020-08-04T13:15:55+08:00
+date: 2020-08-04T22:15:55+08:00
 summary: "Kafka 启用 SCRAM 权限认证"
 isCJKLanguage: true
 toc: true
@@ -12,7 +12,11 @@ draft: false
 
 # Kafka 启用 SCRAM 权限认证
 
+最近遇到`Kafka`启用权限认证的问题，记录一下。
 
+> 这里只涉及简单场景：`SCRAM/SASL_PLAINTEXT`，`SASL_SSL`和`Kerberos`结合的场景分别需要额外的`SSL`证书及`Kerberos`环境，比较繁琐，`Kafka`的配置部分差别不大。
+>
+> 单纯`SASL_PLAINTEXT`方式配置比较简单，之所以觉得有记录的价值，是因为这里是要同时实现内网不需要权限认证/外网需要授权，比较有实用价值，也踩了不少坑。
 
 ## 目标&环境
 
@@ -71,6 +75,8 @@ bin/kafka-acls.sh --add --authorizer-properties zookeeper.connect=localhost:2181
 ```
 
 > 信息是保存在`ZooKeeper`里的，`Kafka`不启动也能执行。
+>
+> ⚠️注意：通配符`'*'`要用单引号引起来，否则虽然执行不报错，但效果是不对的。
 
 
 
@@ -123,7 +129,7 @@ bin/kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal User:alice --consumer --topic test-topic --group '*'
 ```
 
-
+> ⚠️注意：这里的`User`首字母是大写的。
 
 #### 创建配置文件
 
@@ -160,7 +166,7 @@ KAFKA_OPTS=-Djava.security.auth.login.config=$(pwd)/kafka_client_jaas_alice.conf
 
 ### 使用客户端连接
 
-把`Kafka`客户端的连接的`properties`，加上认证信息就行：
+把`Kafka`客户端连接的`properties`，加上认证信息就行：
 
 ```properties
 security.protocol=SASL_PLAINTEXT

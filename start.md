@@ -1,7 +1,7 @@
 ---
 title: "Martin Niemöller"
 date: 2020-06-09T15:12:42+08:00
-summary: "踩个脚印先～～"
+summary: "～初来乍到～"
 images: ["/images/unsplash.jpg"]
 isCJKLanguage: true
 toc: false
