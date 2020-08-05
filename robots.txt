@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://ccinsight.github.io/sitemap.xml
+Sitemap: https://v2pac.com/sitemap.xml
